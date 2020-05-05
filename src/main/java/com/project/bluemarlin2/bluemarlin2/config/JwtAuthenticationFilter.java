@@ -6,10 +6,8 @@ import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -43,12 +41,42 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if(request.getRequestURI().contains("/api")) {
             String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
             if (token != null && jwtTokenProvider.validateToken(token)) {
+
+                Authentication authentcation = getAuthentcation(token);
+                SecurityContextHolder.getContext().setAuthentication(authentcation);
+                filterChain.doFilter(request, response);
+                return;
+            }else{
+                throw new ServletException("Not authenticated!");
+            }
+        } else if ("/login-validation".equals(request.getRequestURI())){
+            String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
+            if (token != null && jwtTokenProvider.validateToken(token)) {
 //                Authentication authentcation = getAuthentcation(token);
 //                SecurityContextHolder.getContext().setAuthentication(authentcation);
+//                request.setAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY, ((MemberAccount)(authentcation.getPrincipal())).getMember().getUserId());
+//                request.setAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY, ((MemberAccount)(authentcation.getPrincipal())).getMember().getUserId());
+
+                Authentication authentcation = getAuthentcation(token);
+                SecurityContextHolder.getContext().setAuthentication(authentcation);
                 filterChain.doFilter(request, response);
+
+//                Gson gson = new Gson();
+//                Map<String, String> resultMap = new HashMap<>();
+//                resultMap.put("status", "success");
+//                resultMap.put("token", token);
+//
+//                response.getWriter().append(gson.toJson(resultMap));
+//                response.setStatus(200);
+//
+//                filterChain.doFilter(request, response);
+                return;
+            }else{
+                throw new ServletException("Not authenticated!");
             }
-            throw new ServletException("Not authenticated!");
         }
         filterChain.doFilter(request, response);
     }
+
+
 }

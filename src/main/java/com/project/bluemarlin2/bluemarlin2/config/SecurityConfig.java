@@ -39,6 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter(){
+
+        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter();
+
         return new JwtAuthenticationFilter();
     }
 
@@ -53,13 +56,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .formLogin()
                 .loginPage("/index.html")
-                .loginProcessingUrl("/auth")
+                .loginProcessingUrl("/auth**")
                 .successHandler(successHandler())
                 .failureHandler(failureHandler())
                 .and()
                 .authorizeRequests()
 
-                .mvcMatchers(HttpMethod.POST, "/api").hasRole("USER")
+                .mvcMatchers(HttpMethod.POST, "/login-validation").permitAll()
+                .mvcMatchers(HttpMethod.POST, "/api").authenticated()
                 .mvcMatchers(HttpMethod.GET, "/api").authenticated()
                 .mvcMatchers(HttpMethod.DELETE, "/api").authenticated()
                 .mvcMatchers("/h2-console/**").permitAll()
@@ -72,6 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();
         http.cors();
         http.httpBasic().disable();
+
     }
 
     @Override
