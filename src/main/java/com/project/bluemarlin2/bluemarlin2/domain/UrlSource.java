@@ -22,7 +22,7 @@ public class UrlSource {
     @JoinColumn(name="MEMBER_ID")
     private Member member;
 
-    private String address;
+    private String url;
 
     @OneToMany (mappedBy = "urlSource", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Keyword> keywords = new ArrayList();

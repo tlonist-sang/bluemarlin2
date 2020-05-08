@@ -30,7 +30,7 @@ public class KeywordController {
 
         HashMap<String, List<KeywordDTO>> map = new HashMap<>();
         for (UrlSource urlSource : urlSources) {
-            map.put(urlSource.getAddress(), urlSource.getWords());
+            map.put(urlSource.getUrl(), urlSource.getWords());
         }
 
         Gson gson = new Gson();
