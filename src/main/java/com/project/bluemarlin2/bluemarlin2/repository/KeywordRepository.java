@@ -2,11 +2,13 @@ package com.project.bluemarlin2.bluemarlin2.repository;
 
 import com.project.bluemarlin2.bluemarlin2.domain.Keyword;
 import com.project.bluemarlin2.bluemarlin2.domain.UrlSource;
+import com.project.bluemarlin2.bluemarlin2.domain.keywordDtos.DeleteKeywordDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.transaction.TransactionScoped;
 import java.util.List;
 
 @Repository
@@ -44,5 +46,32 @@ public class KeywordRepository{
         }
         urlSource.setKeywords(keywords);
         em.remove(keyword);
+    }
+
+    @Transactional
+    public void remove(DeleteKeywordDto deleteKeywordDto){
+        String userId = deleteKeywordDto.getUserId();
+        String urlName = deleteKeywordDto.getUrlName();
+        String keyword = deleteKeywordDto.getKeyword();
+
+        List<Keyword> result = em.createQuery("select k from Keyword k" +
+                " where k.urlSource.url = :urlName" +
+                " and k.urlSource.member.userId = :userId" +
+                " and k.word = :keyword", Keyword.class)
+                .setParameter("urlName", urlName)
+                .setParameter("userId", userId)
+                .setParameter("keyword", keyword)
+                .getResultList();
+
+
+        result.stream().forEach(k->{
+            UrlSource urlSource = k.getUrlSource();
+            Keyword keywordToDelete = em.find(Keyword.class, k.getId());
+            List<Keyword> keywords = urlSource.getKeywords();
+            keywords.remove(keywordToDelete);
+            urlSource.setKeywords(keywords);
+            em.remove(keywordToDelete);
+            em.persist(urlSource);
+        });
     }
 }

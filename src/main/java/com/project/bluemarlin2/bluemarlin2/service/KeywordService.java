@@ -1,6 +1,7 @@
 package com.project.bluemarlin2.bluemarlin2.service;
 
 import com.project.bluemarlin2.bluemarlin2.domain.Keyword;
+import com.project.bluemarlin2.bluemarlin2.domain.keywordDtos.DeleteKeywordDto;
 import com.project.bluemarlin2.bluemarlin2.repository.KeywordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,5 +22,9 @@ public class KeywordService {
 
     public void remove(Long id){
         keywordRepository.remove(id);
+    }
+
+    public void remove(DeleteKeywordDto deleteKeywordDto){
+        keywordRepository.remove(deleteKeywordDto);
     }
 }
