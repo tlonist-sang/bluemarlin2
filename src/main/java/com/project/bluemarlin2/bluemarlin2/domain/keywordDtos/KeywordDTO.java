@@ -1,4 +1,4 @@
-package com.project.bluemarlin2.bluemarlin2.domain;
+package com.project.bluemarlin2.bluemarlin2.domain.keywordDtos;
 
 import lombok.Getter;
 import lombok.Setter;

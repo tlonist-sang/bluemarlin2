@@ -15,6 +15,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
@@ -38,38 +40,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if(request.getRequestURI().contains("/api")) {
+        Pattern pattern = Pattern.compile("api\\/.*$");
+        Matcher matcher = pattern.matcher(request.getRequestURI());
+
+        if(matcher.find() || "/login-validation".equals(request.getRequestURI())) {
             String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
             if (token != null && jwtTokenProvider.validateToken(token)) {
-
                 Authentication authentcation = getAuthentcation(token);
                 SecurityContextHolder.getContext().setAuthentication(authentcation);
                 filterChain.doFilter(request, response);
-                return;
-            }else{
-                throw new ServletException("Not authenticated!");
-            }
-        } else if ("/login-validation".equals(request.getRequestURI())){
-            String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
-            if (token != null && jwtTokenProvider.validateToken(token)) {
-//                Authentication authentcation = getAuthentcation(token);
-//                SecurityContextHolder.getContext().setAuthentication(authentcation);
-//                request.setAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY, ((MemberAccount)(authentcation.getPrincipal())).getMember().getUserId());
-//                request.setAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY, ((MemberAccount)(authentcation.getPrincipal())).getMember().getUserId());
-
-                Authentication authentcation = getAuthentcation(token);
-                SecurityContextHolder.getContext().setAuthentication(authentcation);
-                filterChain.doFilter(request, response);
-
-//                Gson gson = new Gson();
-//                Map<String, String> resultMap = new HashMap<>();
-//                resultMap.put("status", "success");
-//                resultMap.put("token", token);
-//
-//                response.getWriter().append(gson.toJson(resultMap));
-//                response.setStatus(200);
-//
-//                filterChain.doFilter(request, response);
                 return;
             }else{
                 throw new ServletException("Not authenticated!");

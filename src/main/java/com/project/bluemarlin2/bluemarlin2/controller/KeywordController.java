@@ -2,12 +2,14 @@ package com.project.bluemarlin2.bluemarlin2.controller;
 
 import com.google.gson.Gson;
 import com.project.bluemarlin2.bluemarlin2.domain.Keyword;
-import com.project.bluemarlin2.bluemarlin2.domain.KeywordDTO;
+import com.project.bluemarlin2.bluemarlin2.domain.keywordDtos.DeleteKeywordDto;
+import com.project.bluemarlin2.bluemarlin2.domain.keywordDtos.KeywordDTO;
 import com.project.bluemarlin2.bluemarlin2.domain.MemberAccount;
 import com.project.bluemarlin2.bluemarlin2.domain.UrlSource;
 import com.project.bluemarlin2.bluemarlin2.service.KeywordService;
 import com.project.bluemarlin2.bluemarlin2.service.MemberService;
 import com.project.bluemarlin2.bluemarlin2.service.UrlSourceService;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,9 +52,8 @@ public class KeywordController {
     }
 
     @DeleteMapping
-    public void deleteKeyword(@RequestBody Long keywordId){
-        keywordService.remove(keywordId);
+    public void deleteKeyword(@RequestBody DeleteKeywordDto deleteKeywordDto )
+    {
+        keywordService.remove(deleteKeywordDto);
     }
-
-
 }

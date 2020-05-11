@@ -1,5 +1,6 @@
 package com.project.bluemarlin2.bluemarlin2.domain;
 
+import com.project.bluemarlin2.bluemarlin2.domain.keywordDtos.KeywordDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
