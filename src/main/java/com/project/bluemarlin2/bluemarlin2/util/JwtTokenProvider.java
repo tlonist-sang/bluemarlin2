@@ -1,16 +1,11 @@
 package com.project.bluemarlin2.bluemarlin2.util;
 
 import com.project.bluemarlin2.bluemarlin2.constants.SecurityConstant;
-import com.project.bluemarlin2.bluemarlin2.service.MemberService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +13,6 @@ import java.util.Date;
 import java.util.Map;
 
 @Component
-//@RequiredArgsConstructor
 public class JwtTokenProvider {
     @Value(value="${secret.key}")
     private String secretKey;
@@ -45,7 +39,7 @@ public class JwtTokenProvider {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + SecurityConstant.EXPIRE_TIME))
+                .setExpiration(new Date(now.getTime() + SecurityConstant.REFRESH_TOKEN_EXPIRE_TIME))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }

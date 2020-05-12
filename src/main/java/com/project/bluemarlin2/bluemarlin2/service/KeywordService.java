@@ -1,6 +1,7 @@
 package com.project.bluemarlin2.bluemarlin2.service;
 
 import com.project.bluemarlin2.bluemarlin2.domain.Keyword;
+import com.project.bluemarlin2.bluemarlin2.domain.keywordDtos.AddKeywordDto;
 import com.project.bluemarlin2.bluemarlin2.domain.keywordDtos.DeleteKeywordDto;
 import com.project.bluemarlin2.bluemarlin2.repository.KeywordRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,5 +27,9 @@ public class KeywordService {
 
     public void remove(DeleteKeywordDto deleteKeywordDto){
         keywordRepository.remove(deleteKeywordDto);
+    }
+
+    public Long add(AddKeywordDto addKeywordDto){
+        return keywordRepository.add(addKeywordDto);
     }
 }

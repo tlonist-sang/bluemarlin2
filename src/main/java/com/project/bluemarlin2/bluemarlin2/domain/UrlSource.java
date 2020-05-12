@@ -1,6 +1,5 @@
 package com.project.bluemarlin2.bluemarlin2.domain;
 
-import com.project.bluemarlin2.bluemarlin2.domain.keywordDtos.KeywordDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -27,13 +26,4 @@ public class UrlSource {
 
     @OneToMany (mappedBy = "urlSource", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Keyword> keywords = new ArrayList();
-
-    public List<KeywordDTO> getWords(){
-        List<KeywordDTO> words = new ArrayList<>();
-        for(Keyword keyword : keywords){
-            words.add(new KeywordDTO(keyword.getId(),keyword.getWord()));
-        }
-        return words;
-    }
-
 }

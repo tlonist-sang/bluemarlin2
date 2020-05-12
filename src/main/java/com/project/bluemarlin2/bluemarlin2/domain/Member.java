@@ -37,6 +37,7 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
     private String password;
+    private int mailInterval;
 
 
     public void encodePassword(PasswordEncoder passwordEncoder){

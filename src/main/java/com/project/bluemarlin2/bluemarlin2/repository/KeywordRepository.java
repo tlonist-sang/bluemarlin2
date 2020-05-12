@@ -1,7 +1,9 @@
 package com.project.bluemarlin2.bluemarlin2.repository;
 
 import com.project.bluemarlin2.bluemarlin2.domain.Keyword;
+import com.project.bluemarlin2.bluemarlin2.domain.Member;
 import com.project.bluemarlin2.bluemarlin2.domain.UrlSource;
+import com.project.bluemarlin2.bluemarlin2.domain.keywordDtos.AddKeywordDto;
 import com.project.bluemarlin2.bluemarlin2.domain.keywordDtos.DeleteKeywordDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.transaction.TransactionScoped;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -27,14 +30,6 @@ public class KeywordRepository{
         return keyword;
     }
 
-    public List<Keyword> findAllByUrlSource(UrlSource urlSource){
-        List resultList = em.createQuery("Select k from Keyword k where k.urlSource.id = :urlSourceId and k.urlSource.member.id = :memberId")
-                .setParameter("urlSourceId", urlSource.getId())
-                .setParameter("memberId", urlSource.getMember().getId())
-                .getResultList();
-        return resultList;
-    }
-
     public void remove(Long keywordId){
         Keyword keyword = em.find(Keyword.class, keywordId);
         UrlSource urlSource = keyword.getUrlSource();
@@ -47,6 +42,23 @@ public class KeywordRepository{
         urlSource.setKeywords(keywords);
         em.remove(keyword);
     }
+
+    @Transactional
+    public Long add(AddKeywordDto addKeywordDto){
+        UrlSource urlSource = em.find(UrlSource.class, addKeywordDto.getUrlId());
+        urlSource.getKeywords().stream()
+                .forEach(k->{
+                    if(k.getWord().equals(addKeywordDto.getWord()))
+                        throw new IllegalStateException("Cannot insert same keyword!");
+                });
+
+        Keyword keyword = new Keyword(urlSource, addKeywordDto.getWord());
+        urlSource.getKeywords().add(keyword);
+        em.persist(urlSource);
+
+        return keyword.getId();
+    }
+
 
     @Transactional
     public void remove(DeleteKeywordDto deleteKeywordDto){
