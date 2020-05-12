@@ -22,9 +22,7 @@ import static java.util.stream.Collectors.toList;
 @RequestMapping(value="/api/v1/url")
 @RequiredArgsConstructor
 public class UrlSourceController {
-    private final MemberCustomRepository memberCustomRepository;
     private final UrlSourceRepository urlSourceRepository;
-
 
     @GetMapping
     public Response getUrlList(@LoginUser Member member){
@@ -44,10 +42,12 @@ public class UrlSourceController {
 
     @Data
     static class UrlSourceDto {
+        private Long id;
         private String url;
         private List<KeywordDto> keywordDtoList;
 
         public UrlSourceDto(UrlSource u) {
+            id = u.getId();
             url = u.getUrl();
             keywordDtoList = u.getKeywords().stream()
                     .map(keyword -> new KeywordDto(keyword))
