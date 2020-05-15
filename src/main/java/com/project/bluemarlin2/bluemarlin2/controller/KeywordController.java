@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/v1/keyword")
 @RequiredArgsConstructor
 public class KeywordController {
-    private final UrlSourceService urlSourceService;
-    private final MemberService memberService;
     private final KeywordService keywordService;
 
     @PutMapping
@@ -35,8 +33,9 @@ public class KeywordController {
     }
 
     @DeleteMapping
-    public void deleteKeyword(@RequestBody DeleteKeywordDto deleteKeywordDto){
-        keywordService.remove(deleteKeywordDto);
+    public Response deleteKeyword(@RequestBody DeleteKeywordDto deleteKeywordDto){
+        String apiResult = keywordService.remove(deleteKeywordDto);
+        return new Response(apiResult);
     }
 
 }

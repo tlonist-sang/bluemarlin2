@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class AddKeywordDto {
-    String urlId;
-    String word;
+    Long urlId;
+    String keyword;
 }

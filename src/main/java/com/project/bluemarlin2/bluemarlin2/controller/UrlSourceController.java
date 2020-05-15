@@ -6,7 +6,6 @@ import com.project.bluemarlin2.bluemarlin2.domain.Keyword;
 import com.project.bluemarlin2.bluemarlin2.domain.Member;
 import com.project.bluemarlin2.bluemarlin2.domain.Response;
 import com.project.bluemarlin2.bluemarlin2.domain.UrlSource;
-import com.project.bluemarlin2.bluemarlin2.repository.MemberCustomRepository;
 import com.project.bluemarlin2.bluemarlin2.repository.UrlSourceRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
