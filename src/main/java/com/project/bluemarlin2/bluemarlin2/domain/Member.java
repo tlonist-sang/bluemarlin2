@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class Member {
     private RoleType roleType;
     private String password;
     private int mailInterval;
+    private LocalDateTime recentLogin;
 
 
     public void encodePassword(PasswordEncoder passwordEncoder){

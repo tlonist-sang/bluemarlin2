@@ -4,13 +4,11 @@ import lombok.Data;
 
 @Data
 public class DeleteKeywordDto {
-    String userId;
-    String urlName;
+    Long urlId;
     String keyword;
 
-    public DeleteKeywordDto(String userId, String urlName, String keyword) {
-        this.userId = userId;
-        this.urlName = urlName;
+    public DeleteKeywordDto(Long urlId, String keyword) {
+        this.urlId = urlId;
         this.keyword = keyword;
     }
 }

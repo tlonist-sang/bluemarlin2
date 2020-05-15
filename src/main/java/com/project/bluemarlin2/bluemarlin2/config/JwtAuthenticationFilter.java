@@ -1,5 +1,8 @@
 package com.project.bluemarlin2.bluemarlin2.config;
 
+import com.project.bluemarlin2.bluemarlin2.constants.ApiConstants;
+import com.project.bluemarlin2.bluemarlin2.constants.ErrorCode;
+import com.project.bluemarlin2.bluemarlin2.exception.AccessTokenExpireException;
 import com.project.bluemarlin2.bluemarlin2.service.MemberService;
 import com.project.bluemarlin2.bluemarlin2.util.JwtTokenProvider;
 import io.jsonwebtoken.Jwts;
@@ -51,7 +54,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
                 return;
             }else{
-                throw new ServletException("Not authenticated!");
+                throw new AccessTokenExpireException(ErrorCode.ACCESS_TOKEN_EXPIRE, ApiConstants.ACCESS_TOKEN_EXPIRED);
             }
         }
         filterChain.doFilter(request, response);

@@ -1,9 +1,13 @@
 package com.project.bluemarlin2.bluemarlin2.config;
 
 import com.google.gson.Gson;
+import com.project.bluemarlin2.bluemarlin2.annotation.LoginUser;
+import com.project.bluemarlin2.bluemarlin2.constants.SecurityConstant;
+import com.project.bluemarlin2.bluemarlin2.domain.Member;
 import com.project.bluemarlin2.bluemarlin2.domain.MemberAccount;
 import com.project.bluemarlin2.bluemarlin2.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +19,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -26,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -91,11 +97,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 claims.put("username", username);
                 claims.put("password", password);
 
-                String token = jwtTokenProvider.createToken(claims, username);
+                String accessToken = jwtTokenProvider.createToken(claims, username, SecurityConstant.ACCESS_TOKEN_EXPIRE_TIME);
+                String refreshToken = jwtTokenProvider.createToken(claims, username, SecurityConstant.REFRESH_TOKEN_EXPIRE_TIME);
 
                 Map<String, String> resultMap = new HashMap<>();
                 resultMap.put("status", "success");
-                resultMap.put("token", token);
+                resultMap.put("access_token", accessToken);
+                resultMap.put("refresh_token", refreshToken);
 
                 httpServletResponse.getWriter().append(gson.toJson(resultMap));
                 httpServletResponse.setStatus(200);
