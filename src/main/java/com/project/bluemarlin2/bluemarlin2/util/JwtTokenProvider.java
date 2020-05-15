@@ -16,30 +16,18 @@ import java.util.Map;
 public class JwtTokenProvider {
     @Value(value="${secret.key}")
     private String secretKey;
-
-    //private final MemberService memberService;
-
     public String resolveToken(HttpServletRequest request){
         return request.getHeader("X-AUTH-TOKEN");
     }
 
-//    public Authentication getAuthentcation(String token){
-//        UserDetails userDetails = memberService.loadUserByUsername(getUserNameFromToken(token));
-//        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-//    }
-
-    public String getUserNameFromToken(String token){
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
-    }
-
-    public String createToken(Map<String, Object> claims, String subject){
+    public String createToken(Map<String, Object> claims, String subject, Long duration){
         Date now = new Date();
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + SecurityConstant.REFRESH_TOKEN_EXPIRE_TIME))
+                .setExpiration(new Date(now.getTime() + duration))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
