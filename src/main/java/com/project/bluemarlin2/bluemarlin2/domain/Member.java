@@ -40,6 +40,7 @@ public class Member {
     private String password;
     private int mailInterval;
     private LocalDateTime recentLogin;
+    private Long refreshTokenVersion;
 
 
     public void encodePassword(PasswordEncoder passwordEncoder){

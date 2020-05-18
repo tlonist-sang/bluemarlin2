@@ -33,4 +33,14 @@ public class MemberService implements UserDetailsService {
         member.encodePassword(passwordEncoder);
         return this.memberRepository.save(member);
     }
+
+    public Member increaseRefreshTokenVersion(String userId){
+        Optional<Member> byUserId = memberRepository.findByUserId(userId);
+        assert(byUserId.isPresent());
+
+        Member member = byUserId.get();
+        member.setRefreshTokenVersion(member.getRefreshTokenVersion() + 1);
+        Member saved = memberRepository.save(member);
+        return saved;
+    }
 }

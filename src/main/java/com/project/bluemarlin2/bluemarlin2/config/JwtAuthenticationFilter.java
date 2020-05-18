@@ -47,18 +47,29 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         Matcher matcher = pattern.matcher(request.getRequestURI());
 
         if(matcher.find() || "/login-validation".equals(request.getRequestURI())) {
-            String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
+            String token = jwtTokenProvider.resolveAccessToken((HttpServletRequest) request);
             if (token != null && jwtTokenProvider.validateToken(token)) {
-                Authentication authentcation = getAuthentcation(token);
-                SecurityContextHolder.getContext().setAuthentication(authentcation);
+                Authentication authentication = getAuthentcation(token);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                response.setHeader("X-AUTH-TOKEN", jwtTokenProvider.createAccessToken(authentication));
                 filterChain.doFilter(request, response);
                 return;
             }else{
+                String refreshToken = jwtTokenProvider.resolveRefreshToken((HttpServletRequest) request);
+                if (refreshToken != null && jwtTokenProvider.validateRefreshToken(refreshToken)) {
+                    Authentication authentication = getAuthentcation(refreshToken);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                    response.setHeader("X-AUTH-TOKEN", jwtTokenProvider.createAccessToken(authentication));
+                    filterChain.doFilter(request, response);
+                    return;
+                }
                 throw new AccessTokenExpireException(ErrorCode.ACCESS_TOKEN_EXPIRE, ApiConstants.ACCESS_TOKEN_EXPIRED);
             }
         }
         filterChain.doFilter(request, response);
     }
+
+
 
 
 }

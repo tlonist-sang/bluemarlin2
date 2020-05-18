@@ -39,6 +39,7 @@ public class InitData{
                     .setEmail("tlonist.sang@gmail.com")
                     .setUserId("admin")
                     .setRoleType(RoleType.admin)
+                    .setRefreshTokenVersion(1L)
                     .setPassword("admin");
             List<UrlSource> urlSourceList = new ArrayList();
             UrlSource fox = new UrlSource().setUrl("www.foxnews.com").setMember(member);

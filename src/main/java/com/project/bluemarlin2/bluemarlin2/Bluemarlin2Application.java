@@ -25,8 +25,9 @@ public class Bluemarlin2Application {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         final CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
+        config.setExposedHeaders(Arrays.asList("X-AUTH-TOKEN", "X-REFRESH-TOKEN"));
         config.setAllowedOrigins(Collections.singletonList("*"));
-        config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "X-AUTH-TOKEN"));
+        config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "X-AUTH-TOKEN", "X-REFRESH-TOKEN"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH"));
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
