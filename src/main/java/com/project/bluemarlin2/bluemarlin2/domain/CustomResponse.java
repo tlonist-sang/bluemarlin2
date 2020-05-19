@@ -1,37 +1,46 @@
 package com.project.bluemarlin2.bluemarlin2.domain;
 
 
+import com.project.bluemarlin2.bluemarlin2.constants.ErrorCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class Response <T>{
+@Accessors(chain = true)
+public class CustomResponse<T>{
     String status;
     List<T> data;
     int count;
     int startIndex;
     int lastIndex;
+    ErrorCode errorCode;
 
-    public Response(String status) {
+    public CustomResponse(String status) {
         this.status = status;
     }
 
-    public Response(String status, List<T> data, int count) {
+    public CustomResponse(String status, List<T> data, int count) {
         this.status = status;
         this.data = data;
         this.count = count;
     }
 
-    public Response(String status, List<T> data, int count, int startIndex, int lastIndex) {
+    public CustomResponse(String status, List<T> data, int count, int startIndex, int lastIndex) {
         this.status = status;
         this.data = data;
         this.count = count;
         this.startIndex = startIndex;
         this.lastIndex = lastIndex;
+    }
+
+    public CustomResponse(String status, ErrorCode errorCode) {
+        this.status = status;
+        this.errorCode = errorCode;
     }
 }

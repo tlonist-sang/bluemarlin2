@@ -63,13 +63,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     filterChain.doFilter(request, response);
                     return;
                 }
-                throw new AccessTokenExpireException(ErrorCode.ACCESS_TOKEN_EXPIRE, ApiConstants.ACCESS_TOKEN_EXPIRED);
+                throw new AccessTokenExpireException(ErrorCode.ACCESS_TOKEN_EXPIRE);
             }
         }
         filterChain.doFilter(request, response);
     }
-
-
-
-
 }
