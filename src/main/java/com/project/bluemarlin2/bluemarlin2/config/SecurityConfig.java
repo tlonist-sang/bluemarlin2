@@ -52,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
 
+                .mvcMatchers(HttpMethod.POST, "/register").permitAll()
                 .mvcMatchers(HttpMethod.POST, "/login-validation").permitAll()
                 .mvcMatchers(HttpMethod.POST, "/api").authenticated()
                 .mvcMatchers(HttpMethod.GET, "/api").authenticated()
@@ -61,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         http.headers().frameOptions().disable();

@@ -5,8 +5,6 @@ import com.project.bluemarlin2.bluemarlin2.domain.*;
 import com.project.bluemarlin2.bluemarlin2.domain.keywordDtos.AddKeywordDto;
 import com.project.bluemarlin2.bluemarlin2.domain.keywordDtos.DeleteKeywordDto;
 import com.project.bluemarlin2.bluemarlin2.service.KeywordService;
-import com.project.bluemarlin2.bluemarlin2.service.MemberService;
-import com.project.bluemarlin2.bluemarlin2.service.UrlSourceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +15,8 @@ public class KeywordController {
     private final KeywordService keywordService;
 
     @PutMapping
-    public Response addKeyword(@RequestBody AddKeywordDto addKeywordDto){
-        Response response = new Response();
+    public CustomResponse addKeyword(@RequestBody AddKeywordDto addKeywordDto){
+        CustomResponse response = new CustomResponse();
         Long newKeywordId = keywordService.add(addKeywordDto);
 
         Keyword isExist = keywordService.findOne(newKeywordId);
@@ -33,9 +31,9 @@ public class KeywordController {
     }
 
     @DeleteMapping
-    public Response deleteKeyword(@RequestBody DeleteKeywordDto deleteKeywordDto){
+    public CustomResponse deleteKeyword(@RequestBody DeleteKeywordDto deleteKeywordDto){
         String apiResult = keywordService.remove(deleteKeywordDto);
-        return new Response(apiResult);
+        return new CustomResponse(apiResult);
     }
 
 }
