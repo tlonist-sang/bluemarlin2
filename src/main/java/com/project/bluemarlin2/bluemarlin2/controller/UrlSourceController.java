@@ -4,7 +4,7 @@ import com.project.bluemarlin2.bluemarlin2.annotation.LoginUser;
 import com.project.bluemarlin2.bluemarlin2.constants.ApiConstants;
 import com.project.bluemarlin2.bluemarlin2.domain.Keyword;
 import com.project.bluemarlin2.bluemarlin2.domain.Member;
-import com.project.bluemarlin2.bluemarlin2.domain.Response;
+import com.project.bluemarlin2.bluemarlin2.domain.CustomResponse;
 import com.project.bluemarlin2.bluemarlin2.domain.UrlSource;
 import com.project.bluemarlin2.bluemarlin2.repository.UrlSourceRepository;
 import lombok.Data;
@@ -24,13 +24,13 @@ public class UrlSourceController {
     private final UrlSourceRepository urlSourceRepository;
 
     @GetMapping
-    public Response getUrlList(@LoginUser Member member){
+    public CustomResponse getUrlList(@LoginUser Member member){
         List<UrlSource> urlSourceList = urlSourceRepository.findAllByUserId(member.getUserId());
         List<UrlSourceDto> data = urlSourceList.stream()
                 .map(u -> new UrlSourceDto(u))
                 .collect(toList());
 
-        Response response = new Response<UrlSourceDto>();
+        CustomResponse response = new CustomResponse<UrlSourceDto>();
         response.setData(data);
         response.setCount(data.size());
         response.setStatus(ApiConstants.SUCCESS);
