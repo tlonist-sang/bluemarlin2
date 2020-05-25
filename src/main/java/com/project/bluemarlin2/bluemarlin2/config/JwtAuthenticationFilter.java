@@ -6,6 +6,8 @@ import com.project.bluemarlin2.bluemarlin2.exception.AccessTokenExpireException;
 import com.project.bluemarlin2.bluemarlin2.service.MemberService;
 import com.project.bluemarlin2.bluemarlin2.util.JwtTokenProvider;
 import io.jsonwebtoken.Jwts;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -31,6 +33,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private ApplicationProperties applicationProperties;
 
+    private static Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
+
+
 
     public Authentication getAuthentcation(String token){
         UserDetails userDetails = memberService.loadUserByUsername(getUserNameFromToken(token));
@@ -43,6 +48,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        Boolean proceed = true;
         Pattern pattern = Pattern.compile("api\\/.*$");
         Matcher matcher = pattern.matcher(request.getRequestURI());
 

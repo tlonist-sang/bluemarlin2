@@ -57,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .mvcMatchers(HttpMethod.POST, "/api").authenticated()
                 .mvcMatchers(HttpMethod.GET, "/api").authenticated()
                 .mvcMatchers(HttpMethod.DELETE, "/api").authenticated()
+                .mvcMatchers(HttpMethod.PUT, "/api").authenticated()
                 .mvcMatchers("/h2-console/**").permitAll()
 
                 .and()

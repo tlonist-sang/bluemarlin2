@@ -4,14 +4,14 @@ import com.project.bluemarlin2.bluemarlin2.constants.ApiConstants;
 import com.project.bluemarlin2.bluemarlin2.domain.Keyword;
 import com.project.bluemarlin2.bluemarlin2.domain.keywordDtos.AddKeywordDto;
 import com.project.bluemarlin2.bluemarlin2.domain.keywordDtos.DeleteKeywordDto;
-import com.project.bluemarlin2.bluemarlin2.repository.KeywordRepository;
+import com.project.bluemarlin2.bluemarlin2.repository.KeywordJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class KeywordService {
-    private final KeywordRepository keywordRepository;
+    private final KeywordJpaRepository keywordRepository;
 
     public void save(Keyword keyword){
         keywordRepository.save(keyword);

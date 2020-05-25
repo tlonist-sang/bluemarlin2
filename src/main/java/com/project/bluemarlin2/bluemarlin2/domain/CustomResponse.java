@@ -16,6 +16,7 @@ import java.util.List;
 public class CustomResponse<T>{
     String status;
     List<T> data;
+    T datum;
     int count;
     int startIndex;
     int lastIndex;
