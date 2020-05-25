@@ -22,17 +22,15 @@ public class MemberService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        Optional<Member> byEmail = memberRepository.findByUserId(userName);
-        if(!byEmail.isPresent()){
+        Optional<Member> byUserId = memberRepository.findByUserId(userName);
+        if(byUserId == null){
 
         }
-        Member member = byEmail.get();
-        return new MemberAccount(member);
+        return new MemberAccount(byUserId.get());
     }
 
     public Member createNew(Member member){
-        member.encodePassword(passwordEncoder);
-        return this.memberRepository.save(member);
+        return this.memberRepository.encodeAndSave(member);
     }
 
     @Transactional
