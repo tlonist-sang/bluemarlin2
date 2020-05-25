@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -34,6 +35,7 @@ public class MemberService implements UserDetailsService {
         return this.memberRepository.save(member);
     }
 
+    @Transactional
     public Member increaseRefreshTokenVersion(String userId){
         Optional<Member> byUserId = memberRepository.findByUserId(userId);
         assert(byUserId.isPresent());

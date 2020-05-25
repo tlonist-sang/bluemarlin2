@@ -18,7 +18,7 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class KeywordRepository {
+public class KeywordJpaRepository {
     private final EntityManager em;
 
     @Transactional

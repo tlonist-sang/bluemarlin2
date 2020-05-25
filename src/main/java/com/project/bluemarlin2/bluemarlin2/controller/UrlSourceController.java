@@ -6,7 +6,7 @@ import com.project.bluemarlin2.bluemarlin2.domain.Keyword;
 import com.project.bluemarlin2.bluemarlin2.domain.Member;
 import com.project.bluemarlin2.bluemarlin2.domain.CustomResponse;
 import com.project.bluemarlin2.bluemarlin2.domain.UrlSource;
-import com.project.bluemarlin2.bluemarlin2.repository.UrlSourceRepository;
+import com.project.bluemarlin2.bluemarlin2.repository.UrlSourceJpaRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,7 @@ import static java.util.stream.Collectors.toList;
 @RequestMapping(value="/api/v1/url")
 @RequiredArgsConstructor
 public class UrlSourceController {
-    private final UrlSourceRepository urlSourceRepository;
+    private final UrlSourceJpaRepository urlSourceRepository;
 
     @GetMapping
     public CustomResponse getUrlList(@LoginUser Member member){

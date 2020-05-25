@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 @Transactional
-public class UrlSourceRepository {
+public class UrlSourceJpaRepository {
     private final EntityManager em;
 
     public UrlSource findById(Long id){

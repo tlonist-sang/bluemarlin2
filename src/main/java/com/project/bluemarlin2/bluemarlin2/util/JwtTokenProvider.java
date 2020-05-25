@@ -1,6 +1,7 @@
 package com.project.bluemarlin2.bluemarlin2.util;
 
 import com.project.bluemarlin2.bluemarlin2.constants.SecurityConstant;
+import com.project.bluemarlin2.bluemarlin2.domain.Member;
 import com.project.bluemarlin2.bluemarlin2.domain.MemberAccount;
 import com.project.bluemarlin2.bluemarlin2.service.MemberService;
 import io.jsonwebtoken.Claims;
@@ -40,9 +41,9 @@ public class JwtTokenProvider {
         String username = ((MemberAccount) authentication.getPrincipal()).getUsername();
         String password = ((MemberAccount) authentication.getPrincipal()).getPassword();
 
-        memberService.increaseRefreshTokenVersion(username);
+        Member member = memberService.increaseRefreshTokenVersion(username);
 
-        claims.put("version", ((MemberAccount) authentication.getPrincipal()).getMember().getRefreshTokenVersion());
+        claims.put("version", member.getRefreshTokenVersion());
         claims.put("username", username);
         claims.put("password", password);
         return createToken(claims, username, SecurityConstant.REFRESH_TOKEN_EXPIRE_TIME);

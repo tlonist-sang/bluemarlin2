@@ -32,8 +32,8 @@ public class KeywordController {
 
     @DeleteMapping
     public CustomResponse deleteKeyword(@RequestBody DeleteKeywordDto deleteKeywordDto){
-        String apiResult = keywordService.remove(deleteKeywordDto);
-        return new CustomResponse(apiResult);
+        String result = keywordService.remove(deleteKeywordDto);
+        return new CustomResponse(result);
     }
 
 }

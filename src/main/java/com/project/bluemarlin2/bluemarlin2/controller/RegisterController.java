@@ -60,6 +60,7 @@ public class RegisterController {
         member.setRoleType(RoleType.user);
         member.setRefreshTokenVersion(0L);
         member.setUrlSources(urlSourceList);
+
         memberCustomRepository.save(member);
         return ApiConstants.SUCCESS;
     }
