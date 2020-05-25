@@ -38,7 +38,9 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
     private String password;
-    private int mailInterval;
+    private int mailIntervalInMinutes = 300;
+    private Boolean keywordIntersection = false;
+
     private LocalDateTime recentLogin;
     private Long refreshTokenVersion;
 
