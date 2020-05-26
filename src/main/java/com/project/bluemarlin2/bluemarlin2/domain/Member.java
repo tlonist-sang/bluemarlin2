@@ -39,8 +39,6 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
     private String password;
-    private int mailIntervalInMinutes = 300;
-    private Boolean keywordIntersection = false;
     private Long refreshTokenVersion;
 
     public void encodePassword(PasswordEncoder passwordEncoder){

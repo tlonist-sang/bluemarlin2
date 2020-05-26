@@ -24,6 +24,10 @@ public class UrlSource extends BaseEntity {
     private Member member;
 
     private String url;
+    private Integer mailingInterval = 24;
+    private Boolean keywordIntersection = false;
+    private Boolean isScheduling = false;
+    private String scheduleId = null;
 
     @OneToMany (mappedBy = "urlSource", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Keyword> keywords = new ArrayList();

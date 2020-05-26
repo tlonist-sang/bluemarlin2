@@ -26,4 +26,15 @@ public class ElasticSearchRepository {
         List<ArticleData> articleData = elasticsearchOperations.queryForList(searchQuery, ArticleData.class);
         return articleData;
     }
+
+    public List<ArticleData> findBySingleKeywordInContent(String keyword){
+        MultiMatchQueryBuilder bykeywords = QueryBuilders.multiMatchQuery("content", keyword);
+        SearchQuery searchQuery = new NativeSearchQueryBuilder()
+                .withQuery(bykeywords)
+                .withIndices()
+                .withTypes()
+                .build();
+        List<ArticleData> articleData = elasticsearchOperations.queryForList(searchQuery, ArticleData.class);
+        return articleData;
+    }
 }
