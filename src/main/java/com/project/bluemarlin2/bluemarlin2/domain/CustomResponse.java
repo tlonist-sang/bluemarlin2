@@ -26,6 +26,12 @@ public class CustomResponse<T>{
         this.status = status;
     }
 
+
+    public CustomResponse(String status, T datum) {
+        this.status = status;
+        this.datum = datum;
+    }
+
     public CustomResponse(String status, List<T> data, int count) {
         this.status = status;
         this.data = data;
