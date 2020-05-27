@@ -1,5 +1,6 @@
 package com.project.bluemarlin2.bluemarlin2.domain;
 
+import com.project.bluemarlin2.bluemarlin2.domain.baseEntity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -14,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @Accessors(chain=true)
-public class Member {
+public class Member extends BaseEntity {
     public Member() {
     }
 
@@ -38,10 +39,7 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
     private String password;
-    private int mailInterval;
-    private LocalDateTime recentLogin;
     private Long refreshTokenVersion;
-
 
     public void encodePassword(PasswordEncoder passwordEncoder){
         this.password = passwordEncoder.encode(this.password);

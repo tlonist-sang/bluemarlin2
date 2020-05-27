@@ -2,13 +2,13 @@ package com.project.bluemarlin2.bluemarlin2.controller;
 
 import com.project.bluemarlin2.bluemarlin2.constants.ApiConstants;
 import com.project.bluemarlin2.bluemarlin2.constants.ErrorCode;
-import com.project.bluemarlin2.bluemarlin2.domain.Member;
 import com.project.bluemarlin2.bluemarlin2.domain.CustomResponse;
+import com.project.bluemarlin2.bluemarlin2.domain.Member;
 import com.project.bluemarlin2.bluemarlin2.domain.RoleType;
 import com.project.bluemarlin2.bluemarlin2.domain.UrlSource;
 import com.project.bluemarlin2.bluemarlin2.exception.PasswordException;
 import com.project.bluemarlin2.bluemarlin2.exception.UserAlreadyExistException;
-import com.project.bluemarlin2.bluemarlin2.repository.MemberCustomRepository;
+import com.project.bluemarlin2.bluemarlin2.repository.MemberRepository;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -18,16 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value="/register")
 @RequiredArgsConstructor
 public class RegisterController {
-    private final MemberCustomRepository memberCustomRepository;
+    private final MemberRepository memberRepository;
 
     @PostMapping
     public CustomResponse registerUser(@RequestBody @Valid RegisterDto registerDto) {
@@ -56,17 +55,17 @@ public class RegisterController {
         urlSourceList.add(bbc);
         urlSourceList.add(usaToday);
 
-        member.setRecentLogin(LocalDateTime.now());
         member.setRoleType(RoleType.user);
         member.setRefreshTokenVersion(0L);
         member.setUrlSources(urlSourceList);
-        memberCustomRepository.save(member);
+
+        memberRepository.encodeAndSave(member);
         return ApiConstants.SUCCESS;
     }
 
     private void userIdValidationCheck(RegisterDto registerDto) {
-        Member byUserId = memberCustomRepository.findByUserId(registerDto.getUserId());
-        if(byUserId != null){
+        Optional<Member> byUserId = memberRepository.findByUserId(registerDto.getUserId());
+        if(byUserId.isPresent()){
             throw new UserAlreadyExistException(ErrorCode.USER_ALREADY_EXISTS, registerDto.getUserId());
         }
     }

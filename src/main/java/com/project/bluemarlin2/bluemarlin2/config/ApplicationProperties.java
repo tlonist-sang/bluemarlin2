@@ -15,4 +15,7 @@ import org.springframework.stereotype.Component;
 public class ApplicationProperties {
     @Value(value="${secret.key}")
     String secretKey;
+
+    @Value(value="admin@bluemarlinsearch.info")
+    String bluemarlinEmail;
 }

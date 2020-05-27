@@ -1,5 +1,6 @@
 package com.project.bluemarlin2.bluemarlin2.domain;
 
+import com.project.bluemarlin2.bluemarlin2.domain.baseEntity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -12,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @Accessors(chain=true)
-public class UrlSource {
+public class UrlSource extends BaseEntity {
     @Id
     @GeneratedValue
     @Column(name="URL_ID")
@@ -23,6 +24,10 @@ public class UrlSource {
     private Member member;
 
     private String url;
+    private Integer mailingInterval = 24;
+    private Boolean keywordIntersection = false;
+    private Boolean isScheduling = false;
+    private String scheduleId = null;
 
     @OneToMany (mappedBy = "urlSource", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Keyword> keywords = new ArrayList();
