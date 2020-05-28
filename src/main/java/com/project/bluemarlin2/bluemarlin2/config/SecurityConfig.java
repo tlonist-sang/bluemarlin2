@@ -97,8 +97,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         };
     }
 
-
-
     private AuthenticationFailureHandler failureHandler(){
         return new AuthenticationFailureHandler() {
             @Override

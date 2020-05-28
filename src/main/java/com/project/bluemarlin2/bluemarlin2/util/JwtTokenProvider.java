@@ -58,7 +58,7 @@ public class JwtTokenProvider {
         return createToken(claims, username, SecurityConstant.ACCESS_TOKEN_EXPIRE_TIME);
     }
 
-    public String createToken(Map<String, Object> claims, String subject, Long duration){
+    private String createToken(Map<String, Object> claims, String subject, Long duration){
         Date now = new Date();
 
         return Jwts.builder()

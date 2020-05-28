@@ -8,6 +8,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.List;
 
 @Getter
 @Setter
@@ -15,8 +16,13 @@ import javax.persistence.Id;
 @Document(indexName = "nutch", type="default")
 public class ArticleData {
     @Id @GeneratedValue
-    Long id;
+    String id;
     String tstamp;
+    String segment;
+    List<String> anchor;
+    String digest;
+    String host;
+    String boost;
     String title;
     String url;
     String content;
