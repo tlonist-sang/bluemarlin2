@@ -1,6 +1,5 @@
 package com.project.bluemarlin2.bluemarlin2.config;
 
-import com.project.bluemarlin2.bluemarlin2.constants.ApiConstants;
 import com.project.bluemarlin2.bluemarlin2.constants.ErrorCode;
 import com.project.bluemarlin2.bluemarlin2.exception.AccessTokenExpireException;
 import com.project.bluemarlin2.bluemarlin2.service.MemberService;

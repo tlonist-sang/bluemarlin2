@@ -1,24 +1,37 @@
 package com.project.bluemarlin2.bluemarlin2.scheduling;
 
+import com.project.bluemarlin2.bluemarlin2.config.ScheduleQueue;
 import lombok.RequiredArgsConstructor;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.Queue;
 
 @Component
 @RequiredArgsConstructor
 public class JobScheduler {
     private static Logger logger = LoggerFactory.getLogger(EmailJob.class);
     private final Scheduler scheduler;
+    private final ScheduleQueue scheduleQueue;
 
-    public void sendMails(String uuid, int mailingInterval){
+    @Bean
+    public Queue<Long> getUrlSchedulingQueue(){
+        return new LinkedList<>();
+    }
+
+
+    public void sendMails(Long urlId, String uuid, int mailingInterval){
+
         try {
+            scheduleQueue.blocking().add(urlId);
             ZonedDateTime dateTime = ZonedDateTime.of(LocalDateTime.now(), ZoneId.of("Asia/Seoul"));
             JobDetail jobDetail = buildJobDetail(uuid);
             Trigger trigger = buildJobTrigger(jobDetail, uuid, mailingInterval, dateTime);
@@ -28,8 +41,9 @@ public class JobScheduler {
         }
     }
 
-    public void stopSendingMails(String uuid){
+    public void stopSendingMails(Long urlId, String uuid){
         try {
+            scheduleQueue.blocking().remove(urlId);
             JobDetail jobDetail = buildJobDetail(uuid);
             scheduler.deleteJob(jobDetail.getKey());
         } catch (SchedulerException e) {
@@ -50,7 +64,7 @@ public class JobScheduler {
                 .withIdentity(uuid, "email-jobs")
                 .withDescription("build JobTrigger")
                 .startAt(Date.from(startAt.toInstant()))
-                .withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInHours(mailingInterval).repeatForever())
+                .withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(mailingInterval).repeatForever())
                 .build();
     }
 

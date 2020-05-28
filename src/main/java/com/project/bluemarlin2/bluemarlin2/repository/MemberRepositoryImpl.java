@@ -22,7 +22,7 @@ public class MemberRepositoryImpl implements MemberCustomRepository{
     private final EntityManager em;
 
     public Member findByUserIdAndFetchUrlSources(String userId){
-        List<Member> byUserId = em.createQuery("select m from Member m" +
+        List<Member> byUserId = em.createQuery("select distinct m from Member m" +
                 " join fetch m.urlSources us" +
                 " where m.userId =: userId", Member.class)
                 .setParameter("userId", userId)

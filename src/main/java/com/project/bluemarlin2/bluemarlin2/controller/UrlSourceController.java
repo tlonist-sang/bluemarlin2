@@ -44,10 +44,12 @@ public class UrlSourceController {
         private Long id;
         private String url;
         private List<KeywordDto> keywordDtoList;
+        private Boolean isScheduling;
 
         public UrlSourceDto(UrlSource u) {
             id = u.getId();
             url = u.getUrl();
+            isScheduling = u.getIsScheduling();
             keywordDtoList = u.getKeywords().stream()
                     .map(keyword -> new KeywordDto(keyword))
                     .collect(toList());
