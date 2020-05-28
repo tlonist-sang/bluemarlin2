@@ -41,7 +41,7 @@ public class ScheduleController {
                 if(urlSource.getScheduleId()==null){
                     urlSource.setScheduleId(UUID.randomUUID().toString());
                 }
-                jobScheduler.sendMails(urlSource.getScheduleId(), urlSource.getMailingInterval());
+                jobScheduler.sendMails(urlSource.getId(), urlSource.getScheduleId(), urlSource.getMailingInterval());
             }else{
                 jobScheduler.stopSendingMails(urlSource.getScheduleId());
             }

@@ -1,6 +1,7 @@
 package com.project.bluemarlin2.bluemarlin2;
 
 import com.project.bluemarlin2.bluemarlin2.domain.MemberAccount;
+import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -60,6 +61,15 @@ public class Bluemarlin2Application {
 
             };
         };
+    }
+
+    @Bean
+    public MethodInvokingFactoryBean methodInvokingFactoryBean() {
+        MethodInvokingFactoryBean methodInvokingFactoryBean = new MethodInvokingFactoryBean();
+        methodInvokingFactoryBean.setTargetClass(SecurityContextHolder.class);
+        methodInvokingFactoryBean.setTargetMethod("setStrategyName");
+        methodInvokingFactoryBean.setArguments(new String[]{SecurityContextHolder.MODE_GLOBAL});
+        return methodInvokingFactoryBean;
     }
 
     public static void main(String[] args) {

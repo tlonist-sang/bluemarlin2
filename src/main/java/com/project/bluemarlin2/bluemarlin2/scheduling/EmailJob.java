@@ -1,21 +1,24 @@
 package com.project.bluemarlin2.bluemarlin2.scheduling;
 
 import com.project.bluemarlin2.bluemarlin2.config.ApplicationProperties;
+import com.project.bluemarlin2.bluemarlin2.config.ScheduleQueue;
 import com.project.bluemarlin2.bluemarlin2.constants.CommonConstants;
 import com.project.bluemarlin2.bluemarlin2.domain.Member;
 import com.project.bluemarlin2.bluemarlin2.domain.MemberAccount;
 import com.project.bluemarlin2.bluemarlin2.domain.UrlSource;
 import com.project.bluemarlin2.bluemarlin2.repository.ElasticSearchRepository;
 import com.project.bluemarlin2.bluemarlin2.repository.MemberRepository;
+import com.project.bluemarlin2.bluemarlin2.repository.UrlSourceRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.quartz.JobExecutionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.quartz.QuartzJobBean;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -33,52 +36,66 @@ import java.util.stream.Collectors;
 //https://advenoh.tistory.com/52
 @Component
 @RequiredArgsConstructor
+@Setter
 public class EmailJob extends QuartzJobBean {
 
     private static Logger logger = LoggerFactory.getLogger(EmailJob.class);
     private final JavaMailSender javaMailSender;
     private final MemberRepository memberRepository;
+    private final UrlSourceRepository urlSourceRepository;
     private final ElasticSearchRepository elasticSearchRepository;
     private final ApplicationProperties applicationProperties;
+    private Member loginMember;
+    private final MailProperties mailProperties;
+    private final ScheduleQueue scheduleQueue;
+
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) {
+//        if(SecurityContextHolder.getContext().getAuthentication() != null){
+//            loginMember = ((MemberAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getMember();
+//        }else{
+//            return;
+//        }
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userId = ((MemberAccount) authentication.getPrincipal()).getUsername();
+        Long urlId = scheduleQueue.blocking().poll();
+        List<UrlSource> allByUrlId = urlSourceRepository.findUrlSourceByUrlId(urlId);
+        System.out.println("hello!");
 
-        Optional<Member> byUserId = memberRepository.findByUserId(userId);
-        if(!byUserId.isPresent()){
-            return;
-        }
+//        Member member = memberRepository.findByUserIdAndFetchUrlSources(loginMember.getUserId());
+//        List<UrlSource> urlSources = member.getUrlSources();
+//        for (UrlSource urlSource : urlSources) {
+//            String body = getBody(urlSource);
+//            sendMail(new EmailRequest(
+//                    CommonConstants.EMAIL_TITLE
+//                    ,body
+//                    ,mailProperties.getUsername()
+//                    ,member.getEmail()));
+//        }
+    }
 
-        Member member = byUserId.get();
-        List<UrlSource> urlSources = member.getUrlSources();
-        for (UrlSource urlSource : urlSources) {
-            String body;
-            List<String> words = urlSource.getKeywords().stream().map(keyword -> keyword.getWord()).collect(Collectors.toList());
-            if(urlSource.getKeywordIntersection()){
-                List<String> collect = elasticSearchRepository.findByKeywordsInContent(words)
+    private String getBody(UrlSource urlSource) {
+        String body;
+
+        List<String> words = urlSource.getKeywords().stream().map(keyword -> keyword.getWord()).collect(Collectors.toList());
+        if(urlSource.getKeywordIntersection()){
+            List<String> collect = elasticSearchRepository.findByKeywordsInContent(words)
+                    .stream()
+                    .map(articleData -> articleData.getUrl())
+                    .collect(Collectors.toList());
+            body = new StringBuilder().append(makeEmailBody(collect)).toString();
+        }else{
+            StringBuilder stringBuilder = new StringBuilder();
+            for (String word: words) {
+                List<String> collect = elasticSearchRepository.findBySingleKeywordInContent(word)
                         .stream()
                         .map(articleData -> articleData.getUrl())
                         .collect(Collectors.toList());
-                body = new StringBuilder().append(makeEmailBody(collect)).toString();
-            }else{
-                StringBuilder stringBuilder = new StringBuilder();
-                for (String word: words) {
-                    List<String> collect = elasticSearchRepository.findBySingleKeywordInContent(word)
-                            .stream()
-                            .map(articleData -> articleData.getUrl())
-                            .collect(Collectors.toList());
-                    stringBuilder.append(makeEmailBody(collect));
-                }
-                body = stringBuilder.toString();
+                stringBuilder.append(makeEmailBody(collect));
             }
-            sendMail(new EmailRequest(CommonConstants.EMAIL_TITLE
-                    ,body
-                    ,applicationProperties.getBluemarlinEmail()
-                    ,member.getEmail()));
+            body = stringBuilder.toString();
         }
+        return body;
     }
 
     private String makeEmailBody(List<String> urlToSend) {

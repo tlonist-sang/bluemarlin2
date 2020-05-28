@@ -12,9 +12,15 @@ public interface UrlSourceRepository extends JpaRepository<UrlSource, Long> {
 
     @Query("select distinct u from UrlSource u" +
             " join fetch u.member m" +
-            " where m.userId =: userId and u.id =: urlId")
+            " where m.userId = :userId and u.id = :urlId")
     List<UrlSource> findAllByUserIdAndUrlId(@Param("userId") String userId, @Param("urlId") Long urlId);
 
     @Override
     Optional<UrlSource> findById(Long aLong);
+
+
+    @Query("select distinct u from UrlSource u" +
+            " join fetch u.keywords k" +
+            " where u.id = :urlId")
+    List<UrlSource> findUrlSourceByUrlId(@Param("urlId") Long urlId);
 }

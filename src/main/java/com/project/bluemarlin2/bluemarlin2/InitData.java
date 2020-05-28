@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,12 @@ public class InitData{
     public void init(){
         initService.initData();
     }
+
+//    @PostConstruct
+//    public void setSecurityContextHolderStrategy(){
+//        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_GLOBAL);
+//    }
+
 
     @Component
     @Transactional
