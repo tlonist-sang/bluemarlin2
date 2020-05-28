@@ -1,9 +1,7 @@
 package com.project.bluemarlin2.bluemarlin2.scheduling;
 
 import com.project.bluemarlin2.bluemarlin2.config.ScheduleQueue;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,10 +28,10 @@ public class JobScheduler {
     }
 
 
-    public void sendMails(Long id, String uuid, int mailingInterval){
+    public void sendMails(Long urlId, String uuid, int mailingInterval){
 
         try {
-            scheduleQueue.blocking().add(id);
+            scheduleQueue.blocking().add(urlId);
             ZonedDateTime dateTime = ZonedDateTime.of(LocalDateTime.now(), ZoneId.of("Asia/Seoul"));
             JobDetail jobDetail = buildJobDetail(uuid);
             Trigger trigger = buildJobTrigger(jobDetail, uuid, mailingInterval, dateTime);
@@ -43,8 +41,9 @@ public class JobScheduler {
         }
     }
 
-    public void stopSendingMails(String uuid){
+    public void stopSendingMails(Long urlId, String uuid){
         try {
+            scheduleQueue.blocking().remove(urlId);
             JobDetail jobDetail = buildJobDetail(uuid);
             scheduler.deleteJob(jobDetail.getKey());
         } catch (SchedulerException e) {

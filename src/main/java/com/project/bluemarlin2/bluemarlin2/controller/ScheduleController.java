@@ -43,7 +43,7 @@ public class ScheduleController {
                 }
                 jobScheduler.sendMails(urlSource.getId(), urlSource.getScheduleId(), urlSource.getMailingInterval());
             }else{
-                jobScheduler.stopSendingMails(urlSource.getScheduleId());
+                jobScheduler.stopSendingMails(urlSource.getId(), urlSource.getScheduleId());
             }
 
             urlSourceRepository.save(urlSource);

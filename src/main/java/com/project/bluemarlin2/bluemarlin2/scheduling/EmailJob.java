@@ -3,8 +3,6 @@ package com.project.bluemarlin2.bluemarlin2.scheduling;
 import com.project.bluemarlin2.bluemarlin2.config.ApplicationProperties;
 import com.project.bluemarlin2.bluemarlin2.config.ScheduleQueue;
 import com.project.bluemarlin2.bluemarlin2.constants.CommonConstants;
-import com.project.bluemarlin2.bluemarlin2.domain.Member;
-import com.project.bluemarlin2.bluemarlin2.domain.MemberAccount;
 import com.project.bluemarlin2.bluemarlin2.domain.UrlSource;
 import com.project.bluemarlin2.bluemarlin2.repository.ElasticSearchRepository;
 import com.project.bluemarlin2.bluemarlin2.repository.MemberRepository;
@@ -19,7 +17,6 @@ import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.quartz.QuartzJobBean;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
@@ -29,7 +26,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -45,33 +41,25 @@ public class EmailJob extends QuartzJobBean {
     private final UrlSourceRepository urlSourceRepository;
     private final ElasticSearchRepository elasticSearchRepository;
     private final ApplicationProperties applicationProperties;
-    private Member loginMember;
     private final MailProperties mailProperties;
     private final ScheduleQueue scheduleQueue;
 
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) {
-//        if(SecurityContextHolder.getContext().getAuthentication() != null){
-//            loginMember = ((MemberAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getMember();
-//        }else{
-//            return;
-//        }
 
         Long urlId = scheduleQueue.blocking().poll();
-        List<UrlSource> allByUrlId = urlSourceRepository.findUrlSourceByUrlId(urlId);
-        System.out.println("hello!");
+        List<UrlSource> urlSources= urlSourceRepository.findUrlSourceByUrlId(urlId);
 
-//        Member member = memberRepository.findByUserIdAndFetchUrlSources(loginMember.getUserId());
-//        List<UrlSource> urlSources = member.getUrlSources();
-//        for (UrlSource urlSource : urlSources) {
-//            String body = getBody(urlSource);
-//            sendMail(new EmailRequest(
-//                    CommonConstants.EMAIL_TITLE
-//                    ,body
-//                    ,mailProperties.getUsername()
-//                    ,member.getEmail()));
-//        }
+        for (UrlSource urlSource : urlSources) {
+            String body = getBody(urlSource);
+            sendMail(new EmailRequest(
+                    CommonConstants.EMAIL_TITLE
+                    ,body
+                    ,mailProperties.getUsername()
+                    ,urlSource.getMember().getEmail()));
+        }
+        scheduleQueue.blocking().add(urlId);
     }
 
     private String getBody(UrlSource urlSource) {
@@ -94,7 +82,8 @@ public class EmailJob extends QuartzJobBean {
                 stringBuilder.append(makeEmailBody(collect));
             }
             body = stringBuilder.toString();
-        }
+        };
+        logger.info("body=>" + body);
         return body;
     }
 

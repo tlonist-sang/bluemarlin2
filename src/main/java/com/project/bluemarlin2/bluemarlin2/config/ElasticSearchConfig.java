@@ -18,7 +18,7 @@ public class ElasticSearchConfig {
     public Client client() throws Exception {
 
         Settings settings = Settings.builder()
-                .put("cluster.name", "localhost")
+                .put("cluster.name", "elasticsearch")
                 .build();
 
         return new PreBuiltTransportClient(settings)

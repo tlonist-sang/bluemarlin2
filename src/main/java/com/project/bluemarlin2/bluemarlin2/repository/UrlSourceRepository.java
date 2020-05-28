@@ -21,6 +21,7 @@ public interface UrlSourceRepository extends JpaRepository<UrlSource, Long> {
 
     @Query("select distinct u from UrlSource u" +
             " join fetch u.keywords k" +
+            " join fetch u.member m" +
             " where u.id = :urlId")
     List<UrlSource> findUrlSourceByUrlId(@Param("urlId") Long urlId);
 }
