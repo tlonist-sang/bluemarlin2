@@ -5,7 +5,14 @@ target/
 !**/src/test/**
 
 ### FRONT ###
-front/
+.idea/
+front/package-lock.json
+front/build/
+front/dist/
+front/node/
+front/node_modules/
+front/.gitignore
+front/README.md
 
 ### STS ###
 .apt_generated

@@ -1,0 +1,50 @@
+.main {
+    background: linear-gradient(to right, #00b5ad 50%, #fbbd08 50%);
+    overflow: hidden;
+}
+
+/*.login {*/
+/*    position: relative;*/
+/*    margin-top: 300px;*/
+/*    margin-left: 600px;*/
+/*    margin-right: 600px;*/
+/*}*/
+.form-margin {
+    margin: 10px 700px 10px 700px;
+}
+
+.logo {
+    width:300px;
+    height:300px;
+    background-image: url(../icons/bluemarlin.png);
+}
+
+.register {
+    width: 300px;
+}
+
+.forgot {
+    width: 300px;
+}
+
+.login {
+    width: 300px;
+}
+
+.key-list{
+    margin: 0 50px 0 50px;
+}
+
+.x-icon:focus{
+    cursor: pointer
+}
+
+.register-button{
+    margin-top: 50px;
+    margin-left: 230px;
+}
+
+.user-setting-button{
+    margin-top: 20px;
+    margin-left: 180px;
+}

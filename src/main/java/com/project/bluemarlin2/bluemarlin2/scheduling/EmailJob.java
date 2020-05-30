@@ -37,11 +37,8 @@ public class EmailJob extends QuartzJobBean {
 
     private static Logger logger = LoggerFactory.getLogger(EmailJob.class);
     private final JavaMailSender javaMailSender;
-    private final MemberRepository memberRepository;
     private final UrlSourceRepository urlSourceRepository;
     private final ElasticSearchRepository elasticSearchRepository;
-    private final ApplicationProperties applicationProperties;
-    private final MailProperties mailProperties;
     private final ScheduleQueue scheduleQueue;
 
 
@@ -56,7 +53,7 @@ public class EmailJob extends QuartzJobBean {
             sendMail(new EmailRequest(
                     CommonConstants.EMAIL_TITLE
                     ,body
-                    ,mailProperties.getUsername()
+                    ,"admin@bluemarlinsearch.info"
                     ,urlSource.getMember().getEmail()));
         }
         scheduleQueue.blocking().add(urlId);
