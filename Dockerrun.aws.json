@@ -1,13 +1,14 @@
 {
-  "AWSEBDockerrunVersion": "1",
+  "AWSEBDockerrunVersion": 1,
   "Image": {
     "Name": "tlonist/bluemarlin2",
     "Update": "true"
   },
   "Ports": [
     {
-      "ContainerPort": "8081"
+      "ContainerPort": 8081,
+      "HostPort": 8081
     }
   ],
-  "Logging": "/var/log/bluemarlin"
+  "Entrypoint": "java -jar bluemarlin2-0.0.1-SNAPSHOT.jar"
 }
