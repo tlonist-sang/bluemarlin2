@@ -9,6 +9,5 @@
       "ContainerPort": 8081,
       "HostPort": 8081
     }
-  ],
-  "Entrypoint": ["java", "-jar", "/bluemarlin2-0.0.1-SNAPSHOT.jar"]
+  ]
 }
