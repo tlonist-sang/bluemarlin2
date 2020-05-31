@@ -5,5 +5,5 @@ COPY pom.xml /app
 RUN mvn -f /app/pom.xml clean package
 
 FROM openjdk:11-jdk-slim
-COPY --from=0 /app/target/bluemarlin2-0.0.1-SNAPSHOT.jar /
+COPY --from=0 ./app/target/bluemarlin2-0.0.1-SNAPSHOT.jar ./
 ENTRYPOINT ["java", "-jar", "/bluemarlin2-0.0.1-SNAPSHOT.jar"]
