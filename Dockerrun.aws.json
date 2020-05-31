@@ -2,10 +2,11 @@
   "AWSEBDockerrunVersion": "1",
   "Image": {
     "Name": "tlonist/bluemarlin2",
-    "Update": true
+    "Update": "true"
   },
   "Ports": [
     {
+      "hostPort": "8081",
       "ContainerPort": "8081"
     }
   ]
