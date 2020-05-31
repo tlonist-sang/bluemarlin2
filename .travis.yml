@@ -10,10 +10,10 @@ before_install:
 deploy:
   provider: elasticbeanstalk
   region: ap-northeast-2
-  app: bluemarlin2
-  env: Bluemarlin2-env
+  app: bluemarlin
+  env: Bluemarlin-env
   bucket_name: elasticbeanstalk-ap-northeast-2-734004190163
-  bucket_path: docker-bluemarlin2
+  bucket_path: bluemarlin
   on:
     branch: develop
   access_key_id: $AWS_ACCESS_KEY
