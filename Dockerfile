@@ -6,6 +6,6 @@ RUN mvn -f /app/pom.xml clean package
 
 FROM openjdk:11-jdk-slim
 COPY --from=0 /app/target/bluemarlin2-0.0.1-SNAPSHOT.jar /usr/app
-WORKDIR /usr/app
+WORKDIR '/usr/app'
 EXPOSE 8081
 ENTRYPOINT ["java", "-jar", "bluemarlin2-0.0.1-SNAPSHOT.jar"]
