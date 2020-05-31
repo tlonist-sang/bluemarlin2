@@ -9,10 +9,10 @@ before_install:
 
 deploy:
   provider: elasticbeanstalk
-  region: eu-central-1
+  region: ap-northeast-2
   app: bluemarlin2
-  env: Bluemarlin2-env-1
-  bucket_name: elasticbeanstalk-eu-central-1-734004190163
+  env: Bluemarlin2-env
+  bucket_name: elasticbeanstalk-ap-northeast-2-734004190163
   bucket_path: docker-bluemarlin2
   on:
     branch: develop
