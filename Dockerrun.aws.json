@@ -1,13 +1,18 @@
 {
-  "AWSEBDockerrunVersion": "1",
-  "Image": {
-    "Name": "tlonist/bluemarlin2",
-    "Update": "true"
-  },
-  "Ports": [
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
     {
-      "hostPort": "8081",
-      "ContainerPort": "8081"
+      "name": "bluemarlin2",
+      "image": "tlonist/bluemarlin2",
+      "hostname": "bluemarlin2",
+      "essential": true,
+      "portMappings": [
+        {
+          "hostPort": 8081,
+          "containerPort": 8081
+        }
+      ],
+      "memory": 1024
     }
   ]
 }
