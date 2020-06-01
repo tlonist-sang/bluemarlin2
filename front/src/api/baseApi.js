@@ -2,16 +2,16 @@ import axios from 'axios'
 import {renewAccessToken, setCookie} from "./mainAPI";
 import {TOAST_OPTION} from "../constant/constants";
 import {toast} from "react-toastify";
-import {AWS_PUBLIC_IP} from "../constant/constants";
+import {AWS_PUBLIC_IP, AWS_PUBLIC_PORT} from "../constant/constants";
 
 export default axios.create({
-        baseURL: `http://${AWS_PUBLIC_IP}:8081`
+        baseURL: `http://${AWS_PUBLIC_IP}:${AWS_PUBLIC_PORT}`
     }
 )
 
 export const bluemarlinapis = ()=> {
     let instance = axios.create({
-        baseURL: `http://${AWS_PUBLIC_IP}:8081`
+        baseURL: `http://${AWS_PUBLIC_IP}:${AWS_PUBLIC_PORT}`
     });
     instance.interceptors.response.use(
         (response) => {
