@@ -3,9 +3,9 @@ language: generic
 services: docker
 
 before_install:
-  - docker build -t tlonist/bluemarlin2 .
+  - docker build -t tlonist/bluemarlin2:latest .
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push tlonist/bluemarlin2
+  - docker push tlonist/bluemarlin2:latest
 
 deploy:
   provider: elasticbeanstalk
