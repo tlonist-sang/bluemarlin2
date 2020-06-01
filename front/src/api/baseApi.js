@@ -4,13 +4,13 @@ import {TOAST_OPTION} from "../constant/constants";
 import {toast} from "react-toastify";
 
 export default axios.create({
-        baseURL: `http://localhost:8081`
+        baseURL: `http://${AWS_PUBLIC_IP}:8081`
     }
 )
 
 export const bluemarlinapis = ()=> {
     let instance = axios.create({
-        baseURL: `http://localhost:8081`
+        baseURL: `http://${AWS_PUBLIC_IP}:8081`
     });
     instance.interceptors.response.use(
         (response) => {
