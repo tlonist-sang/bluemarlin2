@@ -50,6 +50,7 @@ const Login = () => {
         if(status === 'success'){
             await setCookie('access-token', access_token, {'httoOnly':true})
             await localStorage.setItem('refresh-token', refresh_token);
+            //check role
             await dispatch(logIn(username));
         }else{
             dispatch(logOut());

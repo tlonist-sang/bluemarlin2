@@ -103,10 +103,23 @@ export const updateSchedulingStatus = async (token, urlId, isScheduling) => {
             urlId: urlId
         }
     }
+    debugger;
     let response = await bluemarlinapis()(option);
     return response.data;
 }
 
+export const getAllUserList = async(token) => {
+    let url = '/api/v1/user/all';
+    let option = {
+        method: 'GET',
+        url: url,
+        headers: {
+            "X-AUTH-TOKEN":token
+        }
+    }
+    let response = await bluemarlinapis()(option);
+    return response.data;
+}
 
 export const renewAccessToken = async () => {
     let refreshToken = localStorage.getItem('refresh-token');

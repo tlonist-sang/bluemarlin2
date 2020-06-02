@@ -4,13 +4,19 @@ import {getUrlSourceList} from "../../api/mainAPI";
 import {useCookies} from "react-cookie";
 import {logOut} from "../../actions";
 import UrlSource from "./UrlSource";
+import AdminPage from "./AdminPage";
 
 const Main = () => {
     const [urlSource, setUrlSource] = useState({});
+    const [showAdminPage, setShowAdminPage] = useState(false);
     const [cookies, setCookie] = useCookies(['access-token'])
 
     const userId = useSelector(state => state.auth.userId);
     const dispatch = useDispatch();
+
+    const showAdmin = async () => {
+        await setShowAdminPage(!showAdminPage);
+   }
 
     const getUrlSources = useCallback(async () => {
         let response = await getUrlSourceList(cookies['access-token']);
@@ -59,16 +65,14 @@ const Main = () => {
         }
     };
 
-
     return (
         <div>
             <div className={"ui blue button massive"}>User : {userId}</div>
-            <div className={"ui grey button massive"} onClick={onLogOut}>
-                Logout
-            </div>
+            <div className={"ui grey button massive"} onClick={onLogOut}>Logout</div>
+            {userId==='admin' && <div className={"ui red button massive"} onClick={showAdmin}>Admin Page</div>}
             <div className="ui horizontal divider"/>
             <div>
-                {renderUrlSources()}
+                 {showAdminPage? <AdminPage />: renderUrlSources()}
             </div>
 
         </div>
