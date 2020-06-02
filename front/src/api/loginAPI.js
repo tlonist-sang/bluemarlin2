@@ -1,4 +1,4 @@
-import bluemarlinAPI from "./baseApi";
+import bluemarlinAPI, {bluemarlinapis} from "./baseApi";
 import {useDispatch} from "react-redux";
 import {LOG_IN} from "../constant/constants";
 import {logIn, logOut} from "../actions";
@@ -59,4 +59,17 @@ export const registerUser = async(userId, email, password) => {
     }
     let response = await bluemarlinAPI(option);
     return response;
+}
+
+export const checkUserNameExist = async (userId) => {
+    let url = `/name`;
+    let option = {
+        method: 'GET',
+        url: url,
+        params: {
+            userId: userId
+        }
+    }
+    let response = await bluemarlinAPI(option);
+    return response.data;
 }
