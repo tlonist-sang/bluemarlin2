@@ -1,6 +1,7 @@
 package com.project.bluemarlin2.bluemarlin2.repository;
 
 import com.project.bluemarlin2.bluemarlin2.domain.Member;
+import com.project.bluemarlin2.bluemarlin2.domain.MemberDto;
 import com.project.bluemarlin2.bluemarlin2.domain.UrlSource;
 import com.project.bluemarlin2.bluemarlin2.exception.UserAlreadyExistException;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,5 +42,12 @@ public class MemberRepositoryImpl implements MemberCustomRepository{
         member.encodePassword(passwordEncoder);
         em.persist(member);
         return member;
+    }
+
+    public List<Member> getAllMembers(){
+        List<Member> allMembers = em.createQuery("select distinct m from Member m" +
+                " join fetch m.urlSources us", Member.class)
+                .getResultList();
+        return allMembers;
     }
 }

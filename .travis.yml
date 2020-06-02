@@ -15,6 +15,6 @@ deploy:
   bucket_name: elasticbeanstalk-ap-northeast-2-734004190163
   bucket_path: bluemarlin2-multi
   on:
-    branch: develop
+    branch: master
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
