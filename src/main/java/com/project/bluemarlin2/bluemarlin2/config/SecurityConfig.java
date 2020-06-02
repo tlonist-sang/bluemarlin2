@@ -1,6 +1,7 @@
 package com.project.bluemarlin2.bluemarlin2.config;
 
 import com.google.gson.Gson;
+import com.project.bluemarlin2.bluemarlin2.domain.RoleType;
 import com.project.bluemarlin2.bluemarlin2.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -52,6 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
 
+                .mvcMatchers(HttpMethod.GET, "/name").permitAll()
                 .mvcMatchers(HttpMethod.POST, "/register").permitAll()
                 .mvcMatchers(HttpMethod.POST, "/login-validation").permitAll()
                 .mvcMatchers(HttpMethod.POST, "/api").authenticated()
