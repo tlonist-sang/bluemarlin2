@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name="keyword_data")
 @Getter
 @Setter
 @Accessors(chain=true)

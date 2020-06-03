@@ -28,9 +28,6 @@ import java.util.Optional;
 @SpringBootApplication
 @EnableJpaAuditing
 public class Bluemarlin2Application {
-    @Autowired
-    DataSource dataSource;
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
