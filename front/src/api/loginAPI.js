@@ -10,7 +10,7 @@ export const requestLogin = async (username, password) => {
     let option = {
         method: 'POST',
         url: url,
-        params: {
+        data: {
             username: username,
             password: password
         }

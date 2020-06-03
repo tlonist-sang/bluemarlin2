@@ -4,7 +4,7 @@ export const SET_TOKEN = 'SET_TOKEN';
 export const DELETE_TOKEN = 'DELETE_TOKEN';
 export const AWS_PUBLIC_IP = '52.78.43.16'
     // '52.78.43.16';
-export const AWS_PUBLIC_PORT = '8081';
+export const AWS_PUBLIC_PORT = '80';
 
 export const KEYWORD_EDIT = 'KEYWORD_EDIT';
 export const KEYWORD_DELETE = 'KEYWORD_DELETE';
