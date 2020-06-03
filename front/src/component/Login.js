@@ -1,14 +1,14 @@
-import React, {useCallback, useEffect, useState, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useForm} from "react-hook-form";
 import {requestLogin, validateAuthToken, validateRefreshToken} from "../api/loginAPI";
 import {useDispatch} from "react-redux";
 import {logIn, logOut} from "../actions";
 import bluemarlin from "../icons/bluemarlin.png"
 import {useCookies} from "react-cookie";
-import bluemarlinAPI from "../api/baseApi";
 import {openPopup} from "../actions/PopupActions";
-import {KEYWORD_CREATE} from "../constant/constants";
+import {KEYWORD_CREATE, TOAST_OPTION} from "../constant/constants";
 import RegisterPopup from "./popups/RegisterPopup";
+import {toast} from "react-toastify";
 
 
 const Login = () => {
@@ -46,14 +46,18 @@ const Login = () => {
         let username = usernameRef.current.value;
         let password = passwordRef.current.value;
 
-        const {status, access_token, refresh_token} = await requestLogin(username, password);
-        if(status === 'success'){
-            await setCookie('access-token', access_token, {'httoOnly':true})
-            await localStorage.setItem('refresh-token', refresh_token);
-            //check role
-            await dispatch(logIn(username));
-        }else{
+        const result = await requestLogin(username, password);
+        debugger;
+        if(result === 'Authentication failure'){
+            toast.error('Login failed', TOAST_OPTION);
             dispatch(logOut());
+        }else {
+            const {status, access_token, refresh_token} = result;
+            if(status === 'success'){
+                await setCookie('access-token', access_token, {'httoOnly':true})
+                await localStorage.setItem('refresh-token', refresh_token);
+                await dispatch(logIn(username));
+            }
         }
     }
 

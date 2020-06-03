@@ -1,8 +1,5 @@
-import bluemarlinAPI, {bluemarlinapis} from "./baseApi";
-import {useDispatch} from "react-redux";
-import {LOG_IN} from "../constant/constants";
-import {logIn, logOut} from "../actions";
-import {useCookies} from "react-cookie";
+import bluemarlinAPI from "./baseApi";
+
 const queryString = require('querystring');
 
 export const requestLogin = async (username, password) => {
@@ -10,12 +7,14 @@ export const requestLogin = async (username, password) => {
     let option = {
         method: 'POST',
         url: url,
-        data: {
+        params: {
             username: username,
             password: password
         }
     }
-    let response = await bluemarlinAPI(option)
+    let response = await bluemarlinAPI(option).catch(e=>{
+        return e.response;
+    })
     return response.data;
 }
 

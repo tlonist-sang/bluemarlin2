@@ -1,8 +1,7 @@
 import axios from 'axios'
 import {renewAccessToken, setCookie} from "./mainAPI";
-import {TOAST_OPTION} from "../constant/constants";
+import {AWS_PUBLIC_IP, AWS_PUBLIC_PORT, TOAST_OPTION} from "../constant/constants";
 import {toast} from "react-toastify";
-import {AWS_PUBLIC_IP, AWS_PUBLIC_PORT} from "../constant/constants";
 
 export default axios.create({
         baseURL: `http://${AWS_PUBLIC_IP}:${AWS_PUBLIC_PORT}`
