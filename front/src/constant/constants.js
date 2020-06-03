@@ -2,8 +2,7 @@ export const LOG_IN = 'LOG_IN';
 export const LOG_OUT = 'LOG_OUT';
 export const SET_TOKEN = 'SET_TOKEN';
 export const DELETE_TOKEN = 'DELETE_TOKEN';
-export const IP_ADDRESS = `localhost:8081`;
-export const AWS_PUBLIC_IP = 'localhost'
+export const AWS_PUBLIC_IP = '52.78.43.16'
     // '52.78.43.16';
 export const AWS_PUBLIC_PORT = '8081';
 

@@ -2,6 +2,7 @@ sudo: required
 language: generic
 services: docker
 
+#  --build-arg PGUSER=$PGUSER --build-arg PGHOST=$PGHOST --build-arg PGPASSWORD=$PGPASSWORD --build-arg PGDATABASE=$PGDATABSE --build-arg SECRETKEY=$SECRETKEY
 before_install:
   - docker build -t tlonist/bluemarlin2 .
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
@@ -15,6 +16,6 @@ deploy:
   bucket_name: elasticbeanstalk-ap-northeast-2-734004190163
   bucket_path: bluemarlin2-multi
   on:
-    branch: master
+    branch: develop
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
