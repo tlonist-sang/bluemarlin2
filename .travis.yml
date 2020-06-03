@@ -4,7 +4,7 @@ services: docker
 
 #  --build-arg PGUSER=$PGUSER --build-arg PGHOST=$PGHOST --build-arg PGPASSWORD=$PGPASSWORD --build-arg PGDATABASE=$PGDATABSE --build-arg SECRETKEY=$SECRETKEY
 before_install:
-  - docker build -t tlonist/bluemarlin2 .
+  - docker build -t --build-arg PGUSER=$PGUSER --build-arg PGHOST=$PGHOST --build-arg PGPASSWORD=$PGPASSWORD --build-arg PGDATABASE=$PGDATABSE --build-arg SECRETKEY=$SECRETKEY tlonist/bluemarlin2 .
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker push tlonist/bluemarlin2
 
