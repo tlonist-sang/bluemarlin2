@@ -47,7 +47,6 @@ const Login = () => {
         let password = passwordRef.current.value;
 
         const result = await requestLogin(username, password);
-        debugger;
         if(result === 'Authentication failure'){
             toast.error('Login failed', TOAST_OPTION);
             dispatch(logOut());
