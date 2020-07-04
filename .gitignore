@@ -1,0 +1,50 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**
+!**/src/test/**
+
+### FRONT ###
+.idea/
+front/package-lock.json
+front/build/
+front/dist/
+front/node/
+front/node_modules/
+front/.gitignore
+front/README.md
+
+.DS_Store
+
+### elasticsearch ###
+elasticsearch
+
+### docker compose for test ###
+docker-compose.yml
+Dockerfile.dev
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+### VS Code ###
+.vscode/
